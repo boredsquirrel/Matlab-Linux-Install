@@ -32,7 +32,7 @@ Thats it! Matlab is now installed and available like a normal Application. For u
 wget https://www.mathworks.com/mpm/glnxa64/mpm
 chmod +x mpm
 ```
-`
+
 Usage:
 
 ```
