@@ -15,7 +15,7 @@ sudo ./install
 # activate
 sh /usr/local/MATLAB/R2022b/bin/activate_matlab.sh
 ```
-`
+
 ## create Appstarter for KDE
 
 If Appstarters in GNOME and Cinnamon work differently, please create a pull request.
