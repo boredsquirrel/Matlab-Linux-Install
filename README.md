@@ -1,7 +1,9 @@
 # Matlab-Linux-Install-script
-Install the binary install of matlab in any Linux Distro (Appstarter for KDE)
+Install the binary install of matlab in any Linux Distro including an Appstarter.
 
 Installing Matlab on Linux is annoying. But if done right, its not actually hard, here are the needed commands:
+
+![Mathworks Logo](https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Matlab_Logo.png/200px-Matlab_Logo.png)
 
 ## 1. Download Matlab
 
@@ -10,27 +12,34 @@ save `Matlab_R<VERSIONNUMBER>.zip` to a folder like `/home/USERNAME/Programs`
 ```
 cd ~/Programs
 unzip -X -K matlab_*
+#rm -f matlab_*.zip
 sudo ./install
 
 # activate
-sh /usr/local/MATLAB/R2022b/bin/activate_matlab.sh
+sh /usr/local/MATLAB/R2022b/bin/activate_matlab.sh #replace version with current number
 ```
 
-## create Appstarter for KDE
-
-If Appstarters in GNOME and Cinnamon work differently, please create a pull request.
+## create Appstarter
 
 ```
-sudo printf "[Desktop Entry]\n Version=1.0\nType=Application\nExec=/usr/local/MATLAB/R2022b/bin/matlab %F\nName=MATLAB\nIcon=/usr/local/MATLAB/R2022b/bin/glnxa64/cef_resources/matlab_icon.png\nCategories=Development;Math;Science\nComment=Scientific computing environment\nStartupNotify=true\nStartupWMClass=com-mathworks-util-PostVMInit" > /usr/share/applications/matlab.desktop
+sudo printf """[Desktop Entry]
+Type=Application
+Exec=/usr/local/MATLAB/R2022b/bin/matlab %F
+Name=Matlab
+Icon=/usr/local/MATLAB/R2022b/bin/glnxa64/cef_resources/matlab_icon.png
+Categories=Development;Math;Science
+Comment=Scientific computing environment
+StartupNotify=true
+StartupWMClass=com-mathworks-util-PostVMInit""" > ~/.local/share/applications/matlab.desktop
 
-chmod +x /usr/share/applications/matlab.desktop
+chmod +x ~/.local/share/applications/matlab.desktop
 ```
 
-Thats it! Matlab is now installed and available like a normal Application. For updates what you should do is install the Matlab Packamanager MPM:
+Thats it! Matlab is now installed and available through the App menu. Install the Matlab Packamanager MPM to get updates:
 
 ```
-wget https://www.mathworks.com/mpm/glnxa64/mpm
-chmod +x mpm
+wget https://www.mathworks.com/mpm/glnxa64/mpm -P ~/.local/bin/
+chmod +x ~/.local/bin/mpm
 ```
 
 Usage:
@@ -41,3 +50,11 @@ mpm install --release=<release> --destination=<destination> [--products] <produc
 
 mpm install --release=R2022a --destination=/home/user/Programs/matlab --products MATLAB
 ```
+
+## Current problems
+You need to manually edit the version numbers for
+- activating
+- icon in Appstarter
+- program in Appstarter
+
+This has to be automated using for example the version number of the Matlab download. I dont have time for this and dont use Matlab currently, feel free to create a pull request
