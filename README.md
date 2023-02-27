@@ -1,4 +1,4 @@
-# Matlab-Linux-Install-script
+# Install Matlab on Linux 
 Install the binary install of matlab in any Linux Distro including an Appstarter.
 
 Installing Matlab on Linux is annoying. But if done right, its not actually hard, here are the needed commands:
