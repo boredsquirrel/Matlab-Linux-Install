@@ -1,5 +1,5 @@
 # Install Matlab on Linux 
-Install the binary install of matlab in any Linux Distro including an Appstarter.
+Install the binary of matlab on any Linux Distro, including an Appstarter to launch it
 
 Installing Matlab on Linux is annoying. But if done right, its not actually hard, here are the needed commands:
 
@@ -56,5 +56,7 @@ You need to manually edit the version numbers for
 - activating
 - icon in Appstarter
 - program in Appstarter
+
+also the appstarter has to be renewed when the program updates, depending on the folder probably
 
 This has to be automated using for example the version number of the Matlab download. I dont have time for this and dont use Matlab currently, feel free to create a pull request
