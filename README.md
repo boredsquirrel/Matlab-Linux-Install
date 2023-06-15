@@ -10,36 +10,35 @@ Installing Matlab on Linux is annoying. But if done right, its not actually hard
 save `Matlab_R<VERSIONNUMBER>.zip` to a folder like `/home/USERNAME/Programs`
 
 ```
-cd ~/Programs
-unzip -X -K matlab_*
-#rm -f matlab_*.zip
-sudo ./install
+cd ~/Programs &&\
+mkdir INSTALL &&\
+unzip -X -K matlab_* &&\
+rm -f matlab_*.zip
+./install
 
-# activate
-sh /usr/local/MATLAB/R2022b/bin/activate_matlab.sh #replace version with current number
+# activation should now be done in the installer
+# choose "INSTALL" in the same directory as the download dir
+# this works on immutable distros and also helps with the integration
 ```
 
-## create Appstarter
+## GUI integration
 
 ```
-sudo printf """[Desktop Entry]
-Type=Application
-Exec=/usr/local/MATLAB/R2022b/bin/matlab %F
-Name=Matlab
-Icon=/usr/local/MATLAB/R2022b/bin/glnxa64/cef_resources/matlab_icon.png
-Categories=Development;Math;Science
-Comment=Scientific computing environment
-StartupNotify=true
-StartupWMClass=com-mathworks-util-PostVMInit""" > ~/.local/share/applications/matlab.desktop
-
-chmod +x ~/.local/share/applications/matlab.desktop
+wget https://github.com/trytomakeyouprivate/Matlab-Linux-Install/raw/main/MATLAB-GUI-INSTALL
+chmod +x MATLAB-GUI-INSTALL
+./MATLAB-GUI-INSTALL
 ```
 
-Thats it! Matlab is now installed and available through the App menu. Install the Matlab Packamanager MPM to get updates:
+- bashrc, zshrc, fish integration
+- Icon in the appmenu
+- mimetype, so .m files should be automatically opened
+
+
+Install the Matlab Packamanager MPM to get updates:
 
 ```
-wget https://www.mathworks.com/mpm/glnxa64/mpm -P ~/.local/bin/
-chmod +x ~/.local/bin/mpm
+wget https://www.mathworks.com/mpm/glnxa64/mpm -P ~/.bin/
+chmod +x ~/.bin/mpm
 ```
 
 Usage:
@@ -52,11 +51,6 @@ mpm install --release=R2022a --destination=/home/user/Programs/matlab --products
 ```
 
 ## Current problems
-You need to manually edit the version numbers for
-- activating
-- icon in Appstarter
-- program in Appstarter
+All problems solved for now.
 
-also the appstarter has to be renewed when the program updates, depending on the folder probably
-
-This has to be automated using for example the version number of the Matlab download. I dont have time for this and dont use Matlab currently, feel free to create a pull request
+Version numbers seem to no longer be a problem
