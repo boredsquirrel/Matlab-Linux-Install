@@ -1,0 +1,87 @@
+#!/bin/bash
+
+printf """
+
+----------------------------
+
+Matlab full GUI Installer
+
+
+This installer runs the GUI Install for Matlab
+
+Make sure to choose the folder "INSTALL" in this location as the directory to install Matlab in, so that everything works.
+
+Also link the binaries to ~/.bin or another directory that your shell uses.
+
+Otherwise you need to modify the .desktop file under ~/.local/share/applications/
+
+---------------------------
+
+"""
+
+while true; do
+    read -p "Hast du Matlab bereits installiert und willst das Programm in dein System integrieren? (y/n) > " yn
+    case  in
+
+
+        [Yy]* ) mkdir $(pwd)/INSTALL
+bin_path=$(pwd)/INSTALL/bin/matlab
+install_path=$(pwd)/install
+
+# kopiere das Icon ins Hauptverzeichnis,
+# wenn das nicht klappt, setze die Variable so, dass das Icon direkt angesteuert wird
+
+cp $(pwd)/INSTALL/ui/install/product_installer_ui/images/membrane-logo.png $(pwd)/matlab-logo.png &&\
+icon_path=$(pwd)/membrane-logo.png || icon_path=$(pwd)/INSTALL/ui/install/product_installer_ui/images/membrane-logo.png
+
+# um eine Binary irgendwo zu finden, wenn die Version sich ändert
+# bin_path=$(dirname $(readlink -f $(find -name matlab)))
+
+# mach die binary ausführbar falls noch nicht
+chmod +x $bin_path
+
+# Desktop entry mit allem was man braucht
+cat > ~/.local/share/applications/Matlab.desktop <<EOF && echo "Desktop Eintrag erstellt." || echo "Desktop-Eintrag erstellung fehlgeschlagen."
+[Desktop Entry]
+Name=Matlab
+Comment[de_DE]= Programmierumgebung
+Comment= Code environment
+Categories=Development;Office;
+TryExec=$bin_path
+Exec=$bin_path
+Icon=$icon_path
+Terminal=true
+Type=Application
+MimeType=text/x-matlab
+EOF
+
+ln -s $bin_path ~/.bin/ &&\
+ln -s $install_path ~/.bin/ &&\
+echo "Binaries sind verlinkt, können direkt aufgerufen werden" ||\
+echo "Verlinken der Binaries fehlgeschlagen"
+
+echo "alias matlab=$bin_path" >> ~/.bashrc &&\
+echo "alias matlab-install=$install_path" >> ~/.bashrc &&\
+echo "Matlab run und install ins bashrc verlinkt. Einfach 'matlab' eingeben." &&\
+bash  ~/.bashrc && echo "bashrc neu geladen" ||\
+echo "Matlab aliassing im bashrc fehlgeschlagen"
+
+echo "alias matlab=$bin_path" >> ~/.config/fish/config.fish &&\
+echo "alias matlab-install=$install_path" >> ~/.config/fish/config.fish &&\
+echo "Matlab in die fish config aliased." &&\
+fish source ~/.config/fish/config.fish && echo "Fish config neu geladen" ||\
+echo "Matlab wurde nicht zu fish hinzugefügt, wahrscheinlich benutzt du es nicht"
+
+echo "alias matlab=$bin_path" >> ~/.zshrc &&\
+echo "alias matlab-install=$install_path" >> ~/.zshrc &&\
+echo "Matlab run und install ins zshrc verlinkt. Einfach 'matlab' eingeben." &&\
+zsh ~/.zshrc && echo "zshrc neu geladen" ||\
+echo "Matlab wurde nicht zu zsh hinzugefügt, wahrscheinlich benutzt du es nicht."
+break;;
+
+
+
+        [Nn]* ) echo "Führe zuerst "install" aus, gib deine Lizenz ein und dann starte dieses Skript erneut. && break;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
